@@ -4,6 +4,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+import './base.css'
+
 // 创建vm
 /* eslint-disable no-new */
 new Vue({

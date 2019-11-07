@@ -1,46 +1,50 @@
 <template>
-  <li @mouseenter="enterLi(true)" @mouseleave="enterLi(false)" :style="{background: bgColor}">
+  <li :style="{background: bgColor}" @mouseenter="handleEnter(true)" @mouseleave="handleEnter(false)">
     <label>
       <input type="checkbox" v-model="todo.complete"/>
       <span>{{todo.title}}</span>
     </label>
-    <button class="btn btn-danger" v-show="isShow" @click="del">删除</button>
+    <button class="btn btn-danger" v-show="isShow" @click="deleteItem">删除</button>
   </li>
 </template>
 
 <script>
+  import PubSub from 'pubsub-js'
   export default {
-    props: {
+    props: {// 指定属性名和属性值的类型
       todo: Object,
-      removeItem: Function,
       index: Number
     },
+
     data () {
       return {
         bgColor: 'white',
         isShow: false
       }
     },
+
     methods: {
-      enterLi (flag) {
-        if (flag) {
-          this.bgColor = '#aaaaaa'
+      handleEnter (isEnter) {
+        if(isEnter) { // 进入
+          this.bgColor = '#cccccc'
           this.isShow = true
-        } else {
-          this.bgColor = 'white'
+        } else { // 离开
+          this.bgColor = '#ffffff'
           this.isShow = false
         }
+
       },
-      del () {
-        this.removeItem(this.index)
+
+      deleteItem () {
+        // this.deleteTodo(this.index)
+        // 发布消息(deleteTodo)
+        PubSub.publish('deleteTodo', this.index)
       }
     }
   }
 </script>
 
-<style scoped>
-
-  /*item*/
+<style>
   li {
     list-style: none;
     height: 36px;
@@ -63,7 +67,7 @@
 
   li button {
     float: right;
-    /*display: none;*/
+    display: none;
     margin-top: 3px;
   }
 
@@ -74,5 +78,4 @@
   li:last-child {
     border-bottom: none;
   }
-
 </style>

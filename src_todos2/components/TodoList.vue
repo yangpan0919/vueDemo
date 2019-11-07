@@ -1,31 +1,23 @@
 <template>
   <ul class="todo-main">
-
-   <ToDoItem v-for="(todo, index) in todos" :key="index" :todo="todo" :removeItem="removeItem" :index="index"/>
+    <TodoItem v-for="(todo, index) in todos" :key="index"
+              :todo="todo" :index="index"/>
   </ul>
 </template>
 
 <script>
-  import ToDoItem from './ToDoItem'
+  import TodoItem from './TodoItem.vue'
   export default {
-    props: {
-      todos: Array,
-      removeItem: Function
-    },
-    data () {
-      return {
-        isShow: true
-      }
-    },
+    // 声明接收标签属性
+    props: ['todos'], // 会成为当前组件对象的属性, 可以在模板中直接访问, 也可以通过this来访问
+
     components: {
-      ToDoItem
+      TodoItem
     }
   }
 </script>
 
-<style scoped>
-
-  /*main*/
+<style>
   .todo-main {
     margin-left: 0px;
     border: 1px solid #ddd;
@@ -41,5 +33,4 @@
     padding-left: 5px;
     margin-top: 10px;
   }
-
 </style>
